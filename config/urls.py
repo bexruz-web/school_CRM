@@ -27,9 +27,9 @@ class JWTSchemaGenerator(OpenAPISchemaGenerator):
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="API E-Book",
+        title="API school CRM",
         default_version='v1',
-        description="E-Book API",
+        description="school CRM API",
         terms_of_service="https://bexruzwebb.pythonanywhere.com/",
         contact=openapi.Contact(email="bexruzasqarov08@gmail.com"),
         license=openapi.License(name="BSD License"),
