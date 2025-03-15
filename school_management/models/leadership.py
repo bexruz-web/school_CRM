@@ -14,7 +14,7 @@ class LeaderShip(models.Model):
     hired_date = models.DateField(verbose_name='Ishga olingan sana')
 
     class Meta:
-        verbose_name = "Rahbarlik"
+        verbose_name = "Rahbar"
         verbose_name_plural = "Rahbarlar"
 
     def __str__(self):
