@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from school_management.models import LeaderShip, SchoolStaff
+from school_management.models import LeaderShip
 from .user_serializers import CustomUserSerializer, PublicCustomUserSerializer
 from django.contrib.auth import get_user_model
 
@@ -38,8 +38,3 @@ class PublicLeaderShipSerializer(serializers.ModelSerializer):
         model = LeaderShip
         fields = ['id', 'user', 'position', 'bio', 'photo']
 
-
-class SchoolStaffSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SchoolStaff
-        fields = '__all__'
