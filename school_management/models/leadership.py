@@ -25,7 +25,8 @@ class SchoolStaff(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Xodim")
     position = models.CharField(max_length=100, null=False, blank=False, verbose_name='Lavozim')
     phone_number = models.CharField(max_length=15, unique=True, verbose_name='Telefon raqam')
-    photo = models.ImageField(upload_to='teacher_photos/', null=True, blank=True, verbose_name='Rasm')
+    photo = models.ImageField(upload_to='schoolStaff_photos/', null=True, blank=True, verbose_name='Rasm')
+    bio = models.TextField(null=True, verbose_name='Ma\'lumotnoma')
     hired_date = models.DateField(verbose_name='Ishga olingan sana')
 
     class Meta:
