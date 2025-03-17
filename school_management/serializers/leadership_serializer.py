@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from school_management.models import LeaderShip
-from .user_serializers import CustomUserSerializer, PublicCustomUserSerializer
+from .misc import CustomUserSerializer, PublicCustomUserSerializer
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
