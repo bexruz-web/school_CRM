@@ -10,6 +10,7 @@ class Teacher(models.Model):
     photo = models.ImageField(upload_to="teacher_photos/", verbose_name="Rasm")
     bio = models.TextField(verbose_name="Ma'lumotnoma")
     hired_date = models.DateField(verbose_name="Qabul qilingan sana")
+    subjects = models.ManyToManyField('Subject', related_name='teachers', verbose_name="Fan(lar)i")
 
     class Meta:
         verbose_name = "O'qituvchi"
@@ -21,6 +22,7 @@ class Teacher(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=55, verbose_name="Fan nomi")
+    grades = models.CharField(max_length=20, verbose_name="Qaysi sinflarga")
 
     class Meta:
         verbose_name = "Fan"
@@ -28,19 +30,6 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class SubjectTeacher(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Fan")
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="O'qituvchi")
-
-    class Meta:
-        unique_together = ('subject', 'teacher')
-        verbose_name = "Fan-O'qituvchi"
-        verbose_name_plural = "Fan-O'qituvchilar"
-
-    def __str__(self):
-        return f"{self.teacher.user.first_name} {self.teacher.user.last_name} - {self.subject.name}"
 
 
 class Student(models.Model):
