@@ -7,7 +7,7 @@ User = get_user_model()
 class Teacher(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="O'qituvchi")
     phone_number = models.CharField(max_length=13, verbose_name="Telefon raqami")
-    photo = models.ImageField(upload_to="teacher_photos/", verbose_name="Rasm")
+    photo = models.ImageField(upload_to="teacher_photos/", null=True, blank=True, verbose_name="Rasm")
     bio = models.TextField(verbose_name="Ma'lumotnoma")
     hired_date = models.DateField(verbose_name="Qabul qilingan sana")
     subjects = models.ManyToManyField('Subject', related_name='teachers', verbose_name="Fan(lar)i")
@@ -41,6 +41,7 @@ class Student(models.Model):
     class Meta:
         verbose_name = "O'quvchi"
         verbose_name_plural = "O'quvchilar"
+        unique_together = ('full_name', 'birth_date')
 
     def __str__(self):
         return f"{self.grade}-sinf o'quvchisi {self.full_name}"
