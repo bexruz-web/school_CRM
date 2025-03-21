@@ -22,7 +22,6 @@ class Teacher(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=55, verbose_name="Fan nomi")
-    grades = models.CharField(max_length=20, verbose_name="Qaysi sinflarga")
 
     class Meta:
         verbose_name = "Fan"
