@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from school_management.models import Schedule, Subject, BellSchedule
+from school_management.models import Schedule, Subject, BellSchedule, ClubSchedule
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
@@ -17,3 +17,9 @@ class BellScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = BellSchedule
         fields = ['id', 'shift', 'start_time', 'end_time', 'break_time']
+
+
+class ClubScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClubSchedule
+        fields = '__all__'

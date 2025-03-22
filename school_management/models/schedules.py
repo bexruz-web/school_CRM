@@ -47,3 +47,21 @@ class BellSchedule(models.Model):
 
     def __str__(self):
         return f"{self.get_shift_display()} | {self.start_time} - {self.end_time} | {self.break_time} tanaffus"
+
+
+class ClubSchedule(models.Model):
+
+    name = models.CharField(max_length=100, verbose_name="To‘garak nomi")
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="club_schedules", verbose_name='Fani')
+    weekday = models.CharField(max_length=50, verbose_name='Hafta kuni')
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name="club_schedules", verbose_name='O\'qituvchi')
+    grades = models.CharField(max_length=20, verbose_name='Sinflar')
+    start_time = models.TimeField(verbose_name='Boshlanish vaqti')
+    end_time = models.TimeField(verbose_name='Tugash vaqti')
+    students = models.IntegerField(verbose_name='O\'quvchilar soni')
+
+    class Meta:
+        verbose_name_plural = "To‘garak jadvallari"
+
+    def __str__(self):
+        return f"{self.name} ({self.get_weekday_display()} | {self.start_time} - {self.end_time})"

@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from school_management.permissions import IsSuperuserOrReadOnly
-from school_management.serializers import ScheduleSerializer, BellScheduleSerializer
-from school_management.models import Schedule, BellSchedule
+from school_management.serializers import ScheduleSerializer, BellScheduleSerializer, ClubScheduleSerializer
+from school_management.models import Schedule, BellSchedule, ClubSchedule
 
 
 class ScheduleViewSet(viewsets.ModelViewSet):
@@ -36,3 +36,10 @@ class BellScheduleViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class ClubScheduleViewSet(viewsets.ModelViewSet):
+    queryset = ClubSchedule.objects.all()
+    serializer_class = ClubScheduleSerializer
+    permission_classes = [IsSuperuserOrReadOnly]
+
