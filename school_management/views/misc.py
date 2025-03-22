@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from school_management.models import SchoolStaff, Subject, Teacher, Student
@@ -34,6 +35,16 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     permission_classes = [IsSuperuserOrReadOnly]
+
+    def list(self, request, *args, **kwargs):
+        grade = request.query_params.get('grade', None)
+
+        queryset = self.queryset
+        if grade:
+            queryset = queryset.filter(grade=grade)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
