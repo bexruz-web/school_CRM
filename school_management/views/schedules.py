@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.response import Response
 
 from school_management.permissions import IsSuperuserOrReadOnly
@@ -33,3 +33,5 @@ class ClubScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = ClubScheduleSerializer
     permission_classes = [IsSuperuserOrReadOnly]
 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['subject', 'teacher']

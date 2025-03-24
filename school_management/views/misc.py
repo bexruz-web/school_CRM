@@ -2,6 +2,7 @@ from django.contrib.auth.models import Group
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework import filters
 
 from school_management.models import SchoolStaff, Subject, Teacher, Student
 from school_management.serializers import (SchoolStaffSerializer, PublicSchoolStaffSerializer,
@@ -30,11 +31,17 @@ class TeacherViewSet(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
     permission_classes = [IsSuperuserOrReadOnly]
 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['first_name', 'subjects', 'hired_date']
+
 
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     permission_classes = [IsSuperuserOrReadOnly]
+
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['full_name', 'birth_date']
 
     def list(self, request, *args, **kwargs):
         grade = request.query_params.get('grade', None)
@@ -55,5 +62,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
     permission_classes = [IsSuperuserOrReadOnly]
 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
 
