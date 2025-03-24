@@ -42,6 +42,9 @@ class StudentViewSet(viewsets.ModelViewSet):
         queryset = self.queryset
         if grade:
             queryset = queryset.filter(grade=grade)
+        else:
+            queryset = self.queryset.values_list('grade', flat=True).distinct()
+            return Response({'grades': queryset})
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
