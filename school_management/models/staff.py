@@ -33,14 +33,14 @@ class Subject(models.Model):
 
 class Student(models.Model):
     full_name = models.CharField(max_length=150, verbose_name="Ism-sharifi")
-    grade = models.IntegerField(verbose_name="Sinf")
+    grade = models.CharField(verbose_name="Sinf")
     birth_date = models.DateField(max_length=20, verbose_name="Tug'ilgan sanasi")
     phone_number = models.CharField(max_length=13, null=True, blank=True, verbose_name="Telefon raqami")
 
     class Meta:
         verbose_name = "O'quvchi"
         verbose_name_plural = "O'quvchilar"
-        unique_together = ('full_name', 'birth_date')
+        unique_together = ('full_name',)
 
     def __str__(self):
         return f"{self.grade}-sinf o'quvchisi {self.full_name}"

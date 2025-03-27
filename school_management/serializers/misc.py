@@ -13,13 +13,12 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    groups = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all(), many=True, write_only=True)
     password = serializers.CharField(write_only=True)
     is_superuser = serializers.BooleanField(default=False)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email', 'is_staff', 'is_active', 'is_superuser', 'role', 'groups']
+        fields = ['username', 'password', 'first_name', 'last_name', 'email', 'is_staff', 'is_active', 'is_superuser', 'role']
 
     def create(self, validated_data):
         password = validated_data.pop('password')  # parol olamiz

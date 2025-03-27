@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 from school_management.models import Teacher
 from .misc import CustomUserSerializer
@@ -7,16 +8,17 @@ User = get_user_model()
 
 
 class TeacherSerializer(serializers.ModelSerializer):
+    groups = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all(), many=True, write_only=True, required=False)
     user = CustomUserSerializer()
 
     class Meta:
         model = Teacher
-        fields = ['id', 'user', 'subjects', 'phone_number', 'photo', 'bio', 'hired_date']
+        fields = ['id', 'user', 'groups', 'subjects', 'phone_number', 'photo', 'bio', 'hired_date']
 
     def create(self, validated_data):
         subjects_data = validated_data.pop('subjects', [])
         user_data = validated_data.pop('user')
-        groups_data = user_data.pop('groups', [])
+        groups_data = validated_data.pop('groups', [])
 
         user = User.objects.create_user(**user_data)
         teacher = Teacher.objects.create(user=user, **validated_data)
@@ -32,7 +34,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         subjects_data = validated_data.pop('subjects', None)
         user_data = validated_data.pop('user', None)
-        groups_data = user_data.pop('groups', None)
+        groups_data = validated_data.pop('groups', None)
 
         if user_data:
             user_intance = instance.user
