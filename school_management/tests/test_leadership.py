@@ -1,11 +1,11 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from school_management.models import LeaderShip, Teacher, User
+from school_management.models import LeaderShip
 
 
 class LeadershipTests(APITestCase):
-    fixtures = ['groups', 'users', 'leaderships', 'teachers', 'subjects']
+    fixtures = ['groups', 'users', 'leaderships', 'teachers', 'subjects', 'schoolstaffs', 'students', 'schedules']
 
     def setUp(self):
         leadership = LeaderShip.objects.first()
@@ -14,7 +14,7 @@ class LeadershipTests(APITestCase):
         self.client.force_authenticate(user=leadership.user)
 
     def test_leadership_can_view_all_lists(self):
-        endpoints = [
+        urls = [
             reverse('group-list'),
             reverse('schoolstaff-list'),
             reverse('teacher-list'),
@@ -26,7 +26,7 @@ class LeadershipTests(APITestCase):
             reverse('event-list'),
         ]
 
-        for url in endpoints:
+        for url in urls:
             response = self.client.get(url)
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -54,14 +54,14 @@ class LeadershipTests(APITestCase):
                 'start_time': '13:30:00',
                 'end_time': '15:30:00',
                 'students': 20}),
-            (reverse('student-list'), {'full_name': 'Bexruz Asqarov', 'grade': '11-B', 'birth_date': '2008-06-02'}),
+            (reverse('student-list'), {'full_name': 'Sardor Asqarov', 'grade': '11-B', 'birth_date': '2008-06-02'}),
             (reverse('subject-list'), {'name': 'Ona tili'}),
             (reverse('schedule-list'), {'grade': '11-B', 'shift': 1, 'subjects': [1,2,3,4,5], 'weekday': 'monday'}),
             (reverse('bellschedule-list'), {'shift': 1, 'start_time': '08:00:00', 'end_time': '08:45:00'}),
         ]
         for url, data in data_list:
             response = self.client.post(url, data, format='json')
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED, f'{response.json()}')
 
     def test_leadership_cannot_create_event(self):
         url = reverse('event-list')
@@ -69,3 +69,17 @@ class LeadershipTests(APITestCase):
 
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_leadership_can_update_objects(self):
+        update_data_list = [
+            (reverse('leadership-detail', args=[1]), {'position': 'Vice Principal'}),
+            (reverse('teacher-detail', args=[1]), {'phone_number': '4323232322', 'bio': 'Updated bio'}),
+            (reverse('schoolstaff-detail', args=[1]), {'user': {'password': 'test_staff'}}),
+            (reverse('student-detail', args=[1]), {'phone_number': '+998889876543'}),
+            (reverse('schedule-detail', args=[1]), {'subjects': [3,2,4,5,1]}),
+        ]
+
+        for url, data in update_data_list:
+            response = self.client.patch(url, data, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK, f'{response.json()}')
+
