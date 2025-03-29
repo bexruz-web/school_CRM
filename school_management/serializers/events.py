@@ -10,8 +10,7 @@ class EventPhotoSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     photos = serializers.ListField(
-        child=serializers.ImageField(), write_only=True, required=False
-    )
+        child=serializers.ImageField(), write_only=True, required=False)
     photos_url = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -33,11 +32,10 @@ class EventSerializer(serializers.ModelSerializer):
         instance = super().update(instance, validated_data)
 
         if photos_data is not None:
-            instance.event_photos.all().delete()
             for photo_data in photos_data:
                 EventPhoto.objects.create(event=instance, photos=photo_data)
 
         return instance
 
     def get_photos_url(self, obj):
-        return [photo.photos.url for photo in obj.event_photos.all()]
+        return [photo.photos.name for photo in obj.event_photos.all()]
