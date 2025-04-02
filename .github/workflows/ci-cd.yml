@@ -12,13 +12,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: school_db
+          POSTGRES_USER: school_admin
+          POSTGRES_PASSWORD: admin_pass
+        ports:
+          - 5432:5432
+        options: --health-cmd "pg_isready -U school_admin" --health-interval 10s --health-timeout 5s --health-retries 5
+
     env:
       SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      POSTGRES_DB: school_db
+      POSTGRES_USER: school_admin
+      POSTGRES_PASSWORD: admin_pass
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: 5432
 
     steps:
       - name: Checkout repository
@@ -34,6 +45,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Wait for PostgreSQL to be ready
         run: |
-          python manage.py test
+          until pg_isready -h 127.0.0.1 -p 5432 -U school_admin; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+          echo "PostgreSQL is ready!"
+
+      - name: Run migrations
+        run: python manage.py migrate
+
+      - name: Run tests
+        run: python manage.py test
