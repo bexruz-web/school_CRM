@@ -7,7 +7,7 @@ services:
       bash -c "
         python manage.py migrate &&
         python manage.py collectstatic --no-input &&
-        gunicorn --bind 0.0.0.0:8000 config.wsgi:application
+        gunicorn -b 0.0.0.0:8000 config.wsgi:application --workers 3 --timeout 300 --log-level INFO
       "
     volumes:
       - .:/app
