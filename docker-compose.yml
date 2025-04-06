@@ -4,7 +4,12 @@ services:
     build: .
     container_name: school_crm
     restart: always
-    command: ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
+    command: >
+      bash -c "
+        python manage.py migrate &&
+        python manage.py collectstatic --no-input &&
+        gunicorn --bind 0.0.0.0:8000 config.wsgi:application
+      "
     volumes:
       - .:/app
     ports:
