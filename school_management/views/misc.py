@@ -5,8 +5,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework import filters
 
 from school_management.models import SchoolStaff, Subject, Teacher, Student
-from school_management.serializers import (SchoolStaffSerializer, PublicSchoolStaffSerializer,
-                                           GroupSerializer, TeacherSerializer, StudentSerializer, SubjectSerializer)
+from school_management.serializers import (SchoolStaffSerializer,GroupSerializer, TeacherSerializer,
+                                           StudentSerializer, SubjectSerializer)
 from school_management.permissions import IsSuperuserOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 
@@ -21,11 +21,6 @@ class SchoolStaffViewSet(viewsets.ModelViewSet):
     queryset = SchoolStaff.objects.all()
     serializer_class = SchoolStaffSerializer
     permission_classes = [IsSuperuserOrReadOnly]
-
-    def get_serializer_class(self):
-        if self.action in ['list', 'retrieve']:
-            return PublicSchoolStaffSerializer
-        return SchoolStaffSerializer
 
 
 class TeacherViewSet(viewsets.ModelViewSet):
