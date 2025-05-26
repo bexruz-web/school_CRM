@@ -28,12 +28,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return user
 
 
-class PublicCustomUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'first_name', 'last_name']
-
-
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject

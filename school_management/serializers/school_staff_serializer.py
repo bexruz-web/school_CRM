@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group
 from rest_framework import serializers
 from school_management.models import SchoolStaff
-from school_management.serializers import CustomUserSerializer, PublicCustomUserSerializer
+from school_management.serializers import CustomUserSerializer
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
