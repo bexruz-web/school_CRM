@@ -32,8 +32,14 @@ class Subject(models.Model):
 
 
 class Student(models.Model):
+    CLASS_CHOICES = [
+        (f"{grade}{section}", f"{grade}-{section}")
+        for grade in range(1, 12)
+        for section in ['A', 'B']
+    ]
+
     full_name = models.CharField(max_length=150, verbose_name="Ism-sharifi")
-    grade = models.CharField(verbose_name="Sinf")
+    grade = models.CharField(choices=CLASS_CHOICES, verbose_name="Sinf")
     birth_date = models.DateField(max_length=20, verbose_name="Tug'ilgan sanasi")
     phone_number = models.CharField(max_length=13, null=True, blank=True, verbose_name="Telefon raqami")
 
