@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['12-school.uz', 'www.12-school.uz']
 
 # HTTPS
 # SECURE_SSL_REDIRECT = True
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework_simplejwt',
     'djoser',
+    'corsheaders',
 
     # Local APPS
     'school_management',
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -169,3 +171,17 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://12-school.uz',
+    'https://www.12-school.uz',
+    'http://localhost:5173',
+]
+
+
+CORS_ALLOWED_ORIGINS = [
+    'https://12-school.uz',
+    'https://www.12-school.uz',
+    'http://localhost:5173',
+]
+
+CORS_ALLOW_CREDENTIALS = True
