@@ -40,11 +40,3 @@ class SchoolStaffSerializer(serializers.ModelSerializer):
             instance.user.groups.set(groups_data)
 
         return super().update(instance, validated_data)
-
-
-class PublicSchoolStaffSerializer(serializers.ModelSerializer):
-    user = PublicCustomUserSerializer()
-
-    class Meta:
-        model = SchoolStaff
-        fields = ['id', 'user', 'position', 'bio', 'photo']

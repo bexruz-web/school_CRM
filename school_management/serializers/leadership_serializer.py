@@ -31,10 +31,3 @@ class LeaderShipSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class PublicLeaderShipSerializer(serializers.ModelSerializer):
-    user = PublicCustomUserSerializer()
-
-    class Meta:
-        model = LeaderShip
-        fields = ['id', 'user', 'position', 'bio', 'photo']
-
