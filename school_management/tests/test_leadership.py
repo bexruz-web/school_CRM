@@ -54,9 +54,9 @@ class LeadershipTests(APITestCase):
                 'start_time': '13:30:00',
                 'end_time': '15:30:00',
                 'students': 20}),
-            (reverse('student-list'), {'full_name': 'Sardor Asqarov', 'grade': '11-B', 'birth_date': '2008-06-02'}),
+            (reverse('student-list'), {'full_name': 'Sardor Asqarov', 'grade': '11B', 'birth_date': '2008-06-02'}),
             (reverse('subject-list'), {'name': 'Ona tili'}),
-            (reverse('schedule-list'), {'grade': '11-B', 'shift': 1, 'subjects': [1,2,3,4,5], 'weekday': 'monday'}),
+            (reverse('schedule-list'), {'grade': '11B', 'shift': 1, 'subjects': [1,2,3,4,5], 'weekday': 'monday'}),
             (reverse('bellschedule-list'), {'shift': 1, 'start_time': '08:00:00', 'end_time': '08:45:00'}),
         ]
         for url, data in data_list:
