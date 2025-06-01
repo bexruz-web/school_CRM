@@ -33,14 +33,14 @@ class LeadershipTests(APITestCase):
     def test_leadership_can_create_objects(self):
         data_list = [
             (reverse('teacher-list'), {
-                'user': {'username': 'new_teacher', 'password': 'teacher_pass', 'role': 'teacher'},
+                'user': {'username': 'new_teacher', 'password': 'teacher_pass', 'birth_date': '2025-06-01', 'role': 'teacher'},
                 'groups': [1],
                 'subjects': [1],
                 'phone_number': '09876543234',
                 'bio': 'str',
                 'hired_date': '2021-01-01'}),
             (reverse('schoolstaff-list'), {
-                'user': {'username': 'new_staff', 'password': 'staff_pass', 'role': 'staff'},
+                'user': {'username': 'new_staff', 'password': 'staff_pass', 'birth_date': '2025-06-01', 'role': 'staff'},
                 'position': 'Librarian',
                 'phone_number': '12342321',
                 'bio': 'Kutubxonachi',
