@@ -35,9 +35,11 @@ class SubjectSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    grade = serializers.ChoiceField(choices=Student.CLASS_CHOICES)
+
     class Meta:
         model = Student
-        fields = "__all__"
+        fields = '__all__'
 
 
 
