@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework import filters
@@ -55,6 +56,15 @@ class StudentViewSet(viewsets.ModelViewSet):
             """
             grades = self.queryset.values_list('grade', flat=True).distinct()
             return Response({'grades': list(grades)})
+
+    @action(detail=False, methods=['get'])
+    def grade_choices(self, request):
+        """Modeldagi barcha choice'larni (1A, 1B...) frontendga chiqaradi"""
+        choices = [
+            {'value': value, 'label': label}
+            for value, label in Student.CLASS_CHOICES
+        ]
+        return Response(choices)
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
