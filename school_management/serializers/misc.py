@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from school_management.models import Subject, Student
 from django.contrib.auth import get_user_model
 
-from school_management.serializers import TeacherMiniSerializer
+from .teacher_serializer import TeacherMiniSerializer
 
 User = get_user_model()
 
