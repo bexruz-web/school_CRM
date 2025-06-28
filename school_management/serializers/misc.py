@@ -3,6 +3,8 @@ from django.contrib.auth.models import Group
 from school_management.models import Subject, Student
 from django.contrib.auth import get_user_model
 
+from school_management.serializers import TeacherMiniSerializer
+
 User = get_user_model()
 
 
@@ -29,6 +31,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class SubjectSerializer(serializers.ModelSerializer):
+    teachers = TeacherMiniSerializer(many=True, read_only=True)
+
     class Meta:
         model = Subject
         fields = "__all__"

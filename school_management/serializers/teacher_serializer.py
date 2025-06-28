@@ -49,3 +49,14 @@ class TeacherSerializer(serializers.ModelSerializer):
             instance.user.groups.set(groups_data)
 
         return super().update(instance, validated_data)
+
+
+class TeacherMiniSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Teacher
+        fields = ['id', 'full_name', 'phone_number']
+
+    def get_full_name(self, obj):
+        return f"{obj.user.first_name} {obj.user.last_name}"
