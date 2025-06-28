@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import Group
-from school_management.models import Subject, Student
+from school_management.models import Subject, Student, Teacher
 from django.contrib.auth import get_user_model
 
-from .teacher_serializer import TeacherMiniSerializer
 
 User = get_user_model()
 
@@ -28,6 +27,17 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class TeacherMiniSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Teacher
+        fields = ['id', 'full_name', 'phone_number']
+
+    def get_full_name(self, obj):
+        return f"{obj.user.first_name} {obj.user.last_name}"
 
 
 class SubjectSerializer(serializers.ModelSerializer):
